@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Bullsey</string>
+    <string name="Instruction_text">PUT THE BULLSEYE AS CLOSE AS YOU CAN TO</string>
+    <string name="min_value">1</string>
+    <string name="max_value">100</string>
+    <string name="target_value">89</string>
+    <string name="hit_me_button">HIT ME</string>
+    <string name="result_dialog_message">Hello there!</string>
+    <string name="result_dialog_title">This is my First pop up</string>
+    <string name="result_dialog_button_text">Awesome!</string>
+</resources>
