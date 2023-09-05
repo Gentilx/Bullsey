@@ -18,16 +18,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
 import com.example.bullsey.ui.theme.BullseyTheme
+import kotlin.math.abs
+import kotlin.random.Random
 
 
 @Composable
 fun GameScreen() {
     var alertIsVisible by rememberSaveable { mutableStateOf(false) }
     var sliderValue by rememberSaveable { mutableStateOf(0.5f) }
+    var targetValue by rememberSaveable { mutableStateOf(Random.nextInt(1, 100)) }
 
     val sliderToInt = (sliderValue * 100).toInt()
+
+    fun pointsForCurrentRound(): Int {
+        val maxScore = 100
+        val difference = abs(targetValue - sliderToInt)
+    return maxScore - difference
+}
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -42,7 +50,7 @@ fun GameScreen() {
             verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.weight(9f)
         ) {
-            GamePrompt()
+            GamePrompt(targetValue = targetValue)
             TargetSlider(
                 value = sliderValue,
                 valueChanged = { value ->
@@ -60,7 +68,8 @@ fun GameScreen() {
         if (alertIsVisible) {
           ResultDialog(
               hideDialog = {alertIsVisible = false},
-              sliderValue = sliderToInt
+              sliderValue = sliderToInt,
+              points = pointsForCurrentRound()
           )
         }
     }
