@@ -31,17 +31,55 @@ import kotlin.random.Random
 
 @Composable
 fun GameScreen() {
+    fun newTargetValue() = Random.nextInt(1, 100)
+
     var alertIsVisible by rememberSaveable { mutableStateOf(false) }
     var sliderValue by rememberSaveable { mutableStateOf(0.5f) }
-    var targetValue by rememberSaveable { mutableStateOf(Random.nextInt(1, 100)) }
+    var targetValue by rememberSaveable { mutableStateOf(newTargetValue()) }
 
     val sliderToInt = (sliderValue * 100).toInt()
 
+    var totalScore by rememberSaveable {mutableStateOf(0)}
+    var currentRound by rememberSaveable { mutableStateOf(1) }
+
+    fun differenceAmount() = abs(targetValue - sliderToInt)
+
+
+
     fun pointsForCurrentRound(): Int {
         val maxScore = 100
-        val difference = abs(targetValue - sliderToInt)
-    return maxScore - difference
+        val difference = differenceAmount()
+        var bonus = 0
+
+        if (difference == 0){
+            bonus = 100
+        } else if (difference == 1){
+            bonus = 50
+        }
+    return (maxScore - difference) + bonus
 }
+    fun startNewGame(){
+        totalScore = 0
+        currentRound = 1
+        sliderValue = 0.5f
+        targetValue = newTargetValue()
+    }
+
+    fun alertTitle(): Int{
+        val difference = differenceAmount()
+
+        val title: Int = if (difference == 0) {
+            R.string.alert_title_1
+        } else if (difference < 5) {
+            R.string.alert_title_2
+        } else if (difference <= 10) {
+            R.string.alert_title_3
+        } else {
+            R.string.alert_title_4
+        }
+
+        return title
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -64,19 +102,30 @@ fun GameScreen() {
 }           )
             Button(onClick = {
                 alertIsVisible = true
+                totalScore += pointsForCurrentRound()
+
                 Log.i("ALERT VISIBLE?",alertIsVisible.toString())
             }) {
                 Text(text = stringResource(R.string.hit_me_button))
             }
-            GameDatail(modifier = Modifier.fillMaxSize())
+            GameDatail(
+                totalScore = totalScore,
+                round = currentRound,
+                onStartOver = { startNewGame() },
+                modifier = Modifier.fillMaxSize())
         }
         Spacer(modifier = Modifier.weight(.5f))
 
         if (alertIsVisible) {
           ResultDialog(
-              hideDialog = {alertIsVisible = false},
+              dialogTitle = alertTitle(),
+              hideDialog = { alertIsVisible = false },
               sliderValue = sliderToInt,
-              points = pointsForCurrentRound()
+              points = pointsForCurrentRound(),
+              onRoundIncrement ={
+                  currentRound += 1
+                  targetValue = newTargetValue()
+              }
           )
         }
     }

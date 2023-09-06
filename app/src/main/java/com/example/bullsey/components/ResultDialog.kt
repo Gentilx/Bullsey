@@ -11,6 +11,8 @@ import com.example.bullsey.R
 @Composable
 fun ResultDialog(
     hideDialog: () -> Unit,
+    dialogTitle: Int,
+    onRoundIncrement: () -> Unit,
     sliderValue: Int,
     points: Int,
     modifier: Modifier = Modifier
@@ -19,18 +21,20 @@ fun ResultDialog(
 ) {
     AlertDialog(
         onDismissRequest = {
-            hideDialog
+            hideDialog()
+            onRoundIncrement()
         },
         confirmButton = {
             TextButton(
                 onClick = {
                     hideDialog()
+                    onRoundIncrement()
                 }
             ) {
                 Text(stringResource(id = R.string.result_dialog_button_text))
             }
         },
-        title = { Text(stringResource(id = R.string.result_dialog_title)) },
+        title = { Text(stringResource(id = dialogTitle)) },
         text = { Text(stringResource(id = R.string.result_dialog_message, sliderValue, points)) }
 //        text = { Text("The slider's value is $sliderValue") }
     )

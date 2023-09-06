@@ -15,17 +15,22 @@ import androidx.compose.ui.unit.dp
 import com.example.bullsey.R
 
 @Composable
-fun GameDatail(modifier: Modifier = Modifier) {
+fun GameDatail(
+    modifier: Modifier = Modifier,
+            totalScore: Int = 0,
+    round: Int =   1,
+            onStartOver: () -> Unit
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier)
     {
-        Button(onClick = {}) {
+        Button(onClick ={ onStartOver() }) {
             Text(text = stringResource(R.string.start_over))
         }
-        GameInfo(label = stringResource(id = R.string.score_label), value = 0)
-        GameInfo(label = stringResource(id = R.string.current_round_label), value = 1 )
+        GameInfo(label = stringResource(id = R.string.score_label), value = totalScore)
+        GameInfo(label = stringResource(id = R.string.current_round_label), value = round)
         Button(onClick = {}) {
             Text(text = stringResource(R.string.info))
         }
@@ -49,6 +54,6 @@ fun GameInfo(label: String, value: Int = 0) {
 @Preview(showBackground = true)
 @Composable
 fun GameDetailPreview() {
-    GameDatail()
+    GameDatail(onStartOver = {})
 
 }
