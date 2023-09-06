@@ -1,4 +1,4 @@
-package com.example.bullsey
+package com.example.bullsey.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.bullsey.R
 
 @Composable
 fun GamePrompt(targetValue: Int, modifier: Modifier = Modifier){
