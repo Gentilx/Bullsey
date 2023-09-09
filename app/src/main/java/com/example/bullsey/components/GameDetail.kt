@@ -1,10 +1,19 @@
 package com.example.bullsey.components
 
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.bullsey.R
 
 @Composable
@@ -26,13 +36,29 @@ fun GameDatail(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier)
     {
-        Button(onClick ={ onStartOver() }) {
-            Text(text = stringResource(R.string.start_over))
-        }
+    FilledIconButton(
+        onClick = { onStartOver() },
+        colors = IconButtonDefaults.filledIconButtonColors(
+            containerColor = MaterialTheme.colorScheme.inverseSurface
+        ),
+        modifier = Modifier.size(58.dp)
+    ) {
+        Icon(
+            Icons.Filled.Refresh,
+            contentDescription = stringResource(id = R.string.restart_btn_desc)
+        )
+
+    }
         GameInfo(label = stringResource(id = R.string.score_label), value = totalScore)
         GameInfo(label = stringResource(id = R.string.current_round_label), value = round)
-        Button(onClick = {}) {
-            Text(text = stringResource(R.string.info))
+        FilledIconButton(
+            onClick = { },
+            colors = IconButtonDefaults.filledIconButtonColors(
+                containerColor = MaterialTheme.colorScheme.inverseSurface
+            ),
+            modifier = Modifier.size(50.dp)
+        ) {
+            Icon(Icons.Filled.Info, contentDescription = stringResource(id = R.string.about_btn_desc))
         }
     }
 }
@@ -46,8 +72,10 @@ fun GameInfo(label: String, value: Int = 0) {
         Text(label)
         Text(
             value.toString(),
+            style = MaterialTheme.typography.labelLarge.copy(fontSize = 20.sp)
         )
     }
+
 }
 
 
