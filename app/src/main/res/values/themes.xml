@@ -2,4 +2,5 @@
 <resources>
 
     <style name="Theme.Bullsey" parent="android:Theme.Material.Light.NoActionBar.Fullscreen" />
+
 </resources>
